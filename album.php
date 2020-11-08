@@ -9,14 +9,56 @@ if(isset($_GET['id'])) {
 }
 //create album object using supplied albumId
 $album = new Album($con, $albumId);
-
 //creates new Artist object using function in Album object
 $artist = $album->getArtist();
-
-echo $album->getTitle() ."<br>";
-echo $artist->getName();
-
 ?>
+
+<div class="entityInfo">
+<div class="leftSection"> <!-- contains artwork -->
+  <img src="<?php echo $album->getArtworkPath(); ?>">
+</div>
+
+<div class="rightSection">  <!-- contains album, artist, and track number -->
+  <h2><?php echo $album->getTitle(); ?></h2>
+  <p>by <?php echo $artist->getName(); ?></p>
+  <p><?php echo $album->getNumberOfSongs(); ?> Songs</p>
+</div>
+</div>
+
+<div class="trackListContainer">
+  <ul class="trackList">
+    <?php
+      $songIdArray = $album->getSongIds();
+
+      $i = 1;
+      foreach($songIdArray as $songId){
+
+        $albumSong = new Song($con, $songId);
+        $albumArtist = $albumSong->getArtist();
+
+        echo "<li class='tracklistRow'>
+        <div class='trackCount'>
+          <img class='play' src='assets/images/icons/playWhite.png'>
+          <span class='trackNumber'>$i</span>
+        </div>
+
+        <div class='trackInfo'>
+          <span class='trackName'>".$albumSong->getTitle()."</span>
+          <span class='artistName'>".$albumArtist->getName()."</span>
+        </div>
+        <div class='trackOptions'>
+          <img class='optionsButton' src='assets/images/icons/more.png'>
+        </div>
+        <div class='trackDuration'>
+          <span class='duration'>".$albumSong->getDuration()."</span>
+        </div>
+        </li>";
+        $i++;
+
+      }
+     ?>
+  </ul>
+</div>
 
 
 
