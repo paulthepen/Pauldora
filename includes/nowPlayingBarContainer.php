@@ -18,6 +18,10 @@ $(document).ready(function(){
   setTrack(currentPlaylist[0], currentPlaylist, false);
   updateVolumeProgressBar(audioElement.audio);
 
+  $("#nowPlayingBarContainer").on("mousedown touchstart mousemove touchmove", function(e){
+    e.preventDefault();
+  });
+
 //control progressbar slider
   $(".playbackBar .progressBar").mousedown(function(){
     mouseDown = true;
@@ -67,7 +71,69 @@ function timeFromOffset(mouse, progressBar){
   audioElement.setTime(seconds);
 };
 
+function prevSong(){
+  if(audioElement.audio.currentTime >= 3){
+    audioElement.setTime(0);
+  }
+  else if(shuffle){
+    currentIndex = Math.floor(Math.random() * currentPlaylist.length);
+    setTrack(currentPlaylist[currentIndex], currentPlaylist, true);
+    return;
+  }
+  else if(currentIndex == 0){
+    currentIndex = currentPlaylist.length - 1;
+    setTrack(currentPlaylist[currentIndex], currentPlaylist, true);
+    return;
+  }
+  else {
+    currentIndex--;
+    setTrack(currentPlaylist[currentIndex], currentPlaylist, true);
+  }
+};
+
+function nextSong(){
+  if(repeat == true){
+    audioElement.setTime(0);
+    playSong();
+    return;
+  };
+
+  if(currentIndex == currentPlaylist.length - 1){
+    currentIndex = 0;
+  } else {
+    currentIndex++;
+  }
+
+  if(shuffle){
+    currentIndex = Math.floor(Math.random() * currentPlaylist.length);
+  }
+
+  var trackToPlay = currentPlaylist[currentIndex];
+  setTrack(trackToPlay, currentPlaylist, true);
+};
+
+function setShuffle(){
+  shuffle = !shuffle;
+  var imageName = shuffle ? "shuffle-active.png" : "shufflebutton.png";
+  $(".controlButton.shuffle img").attr("src", "assets/images/icons/"+imageName);
+}
+
+function setRepeat(){
+  repeat = !repeat;
+  var imageName = repeat ? "repeat-active.png" : "repeatbutton.png";
+  $(".controlButton.repeat img").attr("src", "assets/images/icons/"+imageName);
+}
+
+function setMute(){
+  audioElement.audio.muted = !audioElement.audio.muted;
+  var volumeImage = audioElement.audio.muted ? "mutebutton.png" : "volumebutton.png";
+  $(".controlButton.volume img").attr("src", "assets/images/icons/"+volumeImage);
+}
+
 function setTrack(trackId, newPlaylist, play){
+
+  currentIndex = currentPlaylist.indexOf(trackId);
+  pauseSong();
 
   $.post("includes/handlers/ajax/getSongJson.php", {songId: trackId}, function(data){
 
@@ -137,10 +203,10 @@ function pauseSong(){
       <div id="nowPlayingCenter">
         <div class="content playerControls">
           <div class="buttons">
-            <button class="controlButton shuffle" title="Shuffle button">
+            <button class="controlButton shuffle" title="Shuffle button" onclick="setShuffle()">
               <img src="assets/images/icons/shufflebutton.png" alt="Shuffle">
             </button>
-            <button class="controlButton previous" title="Previous button">
+            <button class="controlButton previous" title="Previous button" onclick="prevSong()">
               <img src="assets/images/icons/previousbutton.png" alt="Previous">
             </button>
             <button class="controlButton play" title="Play button" onclick="playSong()">
@@ -149,10 +215,10 @@ function pauseSong(){
             <button class="controlButton pause" title="Pause button" style="display:none;" onclick="pauseSong()">
               <img src="assets/images/icons/pausebutton.png" alt="Pause">
             </button>
-            <button class="controlButton next" title="Next button">
+            <button class="controlButton next" title="Next button" onclick="nextSong()">
               <img src="assets/images/icons/nextbutton.png" alt="Next">
             </button>
-            <button class="controlButton repeat" title="Repeat button">
+            <button class="controlButton repeat" title="Repeat button" onclick="setRepeat()">
               <img src="assets/images/icons/repeatbutton.png" alt="Repeat">
             </button>
           </div>
@@ -171,7 +237,7 @@ function pauseSong(){
 
       <div id="nowPlayingRight">
         <div class="volumeBar">
-          <button class="controlButton volume" title="Volume Button" alt="Volume">
+          <button class="controlButton volume" title="Volume Button" alt="Volume" onclick="setMute()">
             <img src="assets/images/icons/volumebutton.png">
           </button>
           <div class="progressBar">

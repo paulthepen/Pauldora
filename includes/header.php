@@ -3,7 +3,7 @@ include("includes/config.php");
 include("includes/classes/Artist.php");
 include("includes/classes/Album.php");  //Artist.php must come first because Album references it
 include("includes/classes/Song.php");
-if(isset($_SESSION['userLoggedIn'])) {
+if(isset($_SESSION['userLoggedIn']) || isset($_COOKIE[loggedInTracker])) {
   $userLoggedIn = $_SESSION['userLoggedIn'];
 }
 else {
