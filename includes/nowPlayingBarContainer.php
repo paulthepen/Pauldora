@@ -13,9 +13,9 @@ $jsonArray = json_encode($resultArray);
 
  <script>
 $(document).ready(function(){
-  currentPlaylist = <?php echo $jsonArray; ?>;
+  var newPlaylist = <?php echo $jsonArray; ?>;
   audioElement = new Audio();
-  setTrack(currentPlaylist[0], currentPlaylist, false);
+  setTrack(newPlaylist[0], newPlaylist, false);
   updateVolumeProgressBar(audioElement.audio);
 
   $("#nowPlayingBarContainer").on("mousedown touchstart mousemove touchmove", function(e){
@@ -75,11 +75,6 @@ function prevSong(){
   if(audioElement.audio.currentTime >= 3){
     audioElement.setTime(0);
   }
-  else if(shuffle){
-    currentIndex = Math.floor(Math.random() * currentPlaylist.length);
-    setTrack(currentPlaylist[currentIndex], currentPlaylist, true);
-    return;
-  }
   else if(currentIndex == 0){
     currentIndex = currentPlaylist.length - 1;
     setTrack(currentPlaylist[currentIndex], currentPlaylist, true);
@@ -104,19 +99,10 @@ function nextSong(){
     currentIndex++;
   }
 
-  if(shuffle){
-    currentIndex = Math.floor(Math.random() * currentPlaylist.length);
-  }
-
-  var trackToPlay = currentPlaylist[currentIndex];
+  var trackToPlay = shuffle ? shufflePlaylist[currentIndex] : currentPlaylist[currentIndex];
   setTrack(trackToPlay, currentPlaylist, true);
 };
 
-function setShuffle(){
-  shuffle = !shuffle;
-  var imageName = shuffle ? "shuffle-active.png" : "shufflebutton.png";
-  $(".controlButton.shuffle img").attr("src", "assets/images/icons/"+imageName);
-}
 
 function setRepeat(){
   repeat = !repeat;
@@ -129,10 +115,48 @@ function setMute(){
   var volumeImage = audioElement.audio.muted ? "mutebutton.png" : "volumebutton.png";
   $(".controlButton.volume img").attr("src", "assets/images/icons/"+volumeImage);
 }
+function setShuffle(){
+  shuffle = !shuffle;
+  var shuffleImage = shuffle ? "shuffle-active.png" : "shufflebutton.png";
+  $(".controlButton.shuffle img").attr("src", "assets/images/icons/"+shuffleImage);
+
+  if(shuffle==true){
+    //Randomize playlist
+    shuffleArray(shufflePlaylist);
+    currentIndex = shufflePlaylist.indexOf(audioElement.currentlyPlaying.id);
+  }
+  else {
+    //shuffle deactivated > back to regular playlist
+    currentIndex = currentPlaylist.indexOf(audioElement.currentlyPlaying.id);
+  }
+}
+
+// iterates through original playlist and shuffles each entry
+function shuffleArray(a){
+  var j, x, i;
+  for (i=a.length; i; i--){
+    j=Math.floor(Math.random()*i);
+    x=a[i-1];
+    a[i-1]=a[j];
+    a[j]=x;
+  }
+}
 
 function setTrack(trackId, newPlaylist, play){
 
-  currentIndex = currentPlaylist.indexOf(trackId);
+  if(newPlaylist != currentPlaylist) {
+    currentPlaylist = newPlaylist;
+    shufflePlaylist = currentPlaylist.slice();
+    shuffleArray(shufflePlaylist);
+  };
+
+  if(shuffle){
+    currentIndex = shufflePlaylist.indexOf(trackId);
+    pauseSong();
+  }
+  else {
+    currentIndex = currentPlaylist.indexOf(trackId);
+  }
   pauseSong();
 
   $.post("includes/handlers/ajax/getSongJson.php", {songId: trackId}, function(data){
