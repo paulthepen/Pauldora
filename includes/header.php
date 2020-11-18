@@ -5,6 +5,7 @@ include("includes/classes/Album.php");  //Artist.php must come first because Alb
 include("includes/classes/Song.php");
 if(isset($_SESSION['userLoggedIn']) || isset($_COOKIE[loggedInTracker])) {
   $userLoggedIn = $_SESSION['userLoggedIn'];
+  echo "<script>userLoggedIn = '$userLoggedIn'</script>";
 }
 else {
   header("Location: register.php");
