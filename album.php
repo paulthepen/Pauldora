@@ -1,4 +1,4 @@
-<?php include("includes/header.php");
+<?php include("includes/includedFiles.php");
 
 //getting the id if it is set in the url and assigning it to var
 if(isset($_GET['id'])) {
@@ -67,6 +67,3 @@ $artist = $album->getArtist();
 </div>
 
 
-
-
-<?php include("includes/footer.php"); ?>

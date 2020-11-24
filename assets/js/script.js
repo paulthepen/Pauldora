@@ -14,6 +14,10 @@ function openPage(url) {
   }
   var encodedUrl = encodeURI(url + "&userLoggedIn=" + userLoggedIn);
   $("#mainContent").load(encodedUrl);
+  //scrolls back to the top (saves scroll state otherwise)
+  $("body").scrollTop(0);
+  //pushes the url to the address bar (history)
+  history.pushState(null, null, url);
 }
 
 function formatTime(seconds) {
