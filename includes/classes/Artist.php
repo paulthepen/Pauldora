@@ -10,13 +10,15 @@
         $this->id = $id;
       }
 
-      public function
-
       //queries artist table and returns the name field
       public function getName(){
         $artistQuery = mysqli_query($this->con, "SELECT name FROM artist WHERE id='$this->id'");
         $artist = mysqli_fetch_array($artistQuery);
         return $artist['name'];
+      }
+
+      public function getId(){
+        return $this->id;
       }
 
       public function getSongIds(){
