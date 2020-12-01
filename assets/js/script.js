@@ -7,8 +7,13 @@ var currentIndex = 0;
 var repeat = false;
 var shuffle = false;
 var userLoggedIn;
+var timer;
 
 function openPage(url) {
+  if(timer != null){
+    clearTimeout(timer);
+  }
+
   if(url.indexOf("?") == -1) {
     url = url + "?";
   }
@@ -18,6 +23,24 @@ function openPage(url) {
   $("body").scrollTop(0);
   //pushes the url to the address bar (history)
   history.pushState(null, null, url);
+}
+
+function createPlaylist(){
+  var popup = prompt("Please enter the name of your playlist");
+  
+  if(popup != null){
+
+    $.post("includes/handlers/ajax/createPlaylist.php", {name: popup, username: userLoggedIn}).done(function(error){
+      //opens yourMusic when ajax returns
+      if(error != ""){
+        alert(error);
+        return;
+      }
+
+      openPage("yourMusic.php");
+    })
+
+  }
 }
 
 function formatTime(seconds) {
