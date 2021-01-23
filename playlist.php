@@ -24,7 +24,7 @@ $owner = new User($con, $playlist->getOwner());
   <h2><?php echo $playlist->getName(); ?></h2>
   <p>by <?php echo $playlist->getOwner(); ?></p>
   <p><?php echo $playlist->getNumberOfSongs(); ?> Songs</p>
-  <button class="button">DELETE PLAYLIST</button>
+  <button class="button" onclick="deletePlaylist('<?php echo $playlistId; ?>')">DELETE PLAYLIST</button>
 </div>
 </div>
 
@@ -50,7 +50,8 @@ $owner = new User($con, $playlist->getOwner());
           <span class='artistName'>".$songArtist->getName()."</span>
         </div>
         <div class='trackOptions'>
-          <img class='optionsButton' src='assets/images/icons/more.png'>
+          <input type='hidden' class='songId' value='" . $playlistSong->getId() . "'>
+          <img class='optionsButton' src='assets/images/icons/more.png' onclick='showOptionsMenu(this)'>
         </div>
         <div class='trackDuration'>
           <span class='duration'>".$playlistSong->getDuration()."</span>
@@ -69,4 +70,8 @@ $owner = new User($con, $playlist->getOwner());
   </ul>
 </div>
 
-
+<nav class="optionsMenu">
+      <input type="hidden" class="songId">
+      <?php echo Playlist::getPlaylistsDropdown($con, $userLoggedIn->getUsername()); ?>
+      <div class="item" onclick="removeFromPlaylist(this, '<?php echo $playlistId; ?>')">Remove From Playlist</div>
+</nav>

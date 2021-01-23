@@ -6,10 +6,10 @@ include("includes/includedFiles.php");
 
 <div class="playlistsContainer">
 
-    <div class="gridViewContainer">
+    <div class="gridViewContainer"> <!--Class also used in album.php-->
         <h2>Playlists</h2>
         <div class="buttonItems">
-            <button class="button blue" onclick="createPlaylist('something')">New Playlist</button>
+            <button class="button blue" onclick="createPlaylist()">New Playlist</button>
         </div>
 
     <?php
@@ -25,7 +25,7 @@ include("includes/includedFiles.php");
 
         $playlist = new Playlist($con, $row);
 
-        echo "<div class='gridViewItem' role='link' tabindex='0' onclick='openPage(\"playlist.php?id=".$playlist->getId()."\")>
+        echo "<div class='gridViewItem' role='link' tabindex='0' onclick='openPage(\"playlist.php?id=".$playlist->getId()."\")'>
 
 
             <div class='playlistImage'>

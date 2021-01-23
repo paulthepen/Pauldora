@@ -1,0 +1,4 @@
+add songs/albums
+playlist icon
+fix login cookie
+refactor
