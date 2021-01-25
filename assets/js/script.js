@@ -188,4 +188,8 @@ function showOptionsMenu(button){
   menu.css({"top":top + "px", "left":left - menuWidth + "px", "display":"inline"});
 }
 
-
+function logout() {
+  $.post("includes/handlers/ajax/logout.php", function(){
+    location.reload();
+  })
+}

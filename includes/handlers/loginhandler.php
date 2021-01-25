@@ -10,7 +10,6 @@ if(isset($_POST['LoginButton'])) {
   if($result) {
     $_SESSION['userLoggedIn'] = $username;
     header("Location: index.php");
-    setcookie("loggedInTracker", $_SESSION['userLoggedIn'], time()+(86400 * 30));
   }
 }
 ?>
