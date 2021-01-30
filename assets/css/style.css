@@ -562,3 +562,47 @@ input:focus{
     color: #fafafa;
     display:block;
 }
+
+.containerTop .containerLeft,
+.containerTop .containerRight {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.albumArtwork{
+    margin: 0 auto;
+    display: block;
+}
+
+.containerRight .previewSpan{
+    text-align: center;
+    display: block;
+    margin: 15px;
+}
+
+.containerRight .albumNameSpan{
+    color: #fafafa;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.containerRight .artistNameSpan{
+    font-size: 22px;
+    color: #929292;
+}
+
+.addMusic .containerBottom .label{
+    font-size: 20px;
+    color: #fafafa;
+    display:block;
+}
+
+.containerBottom #numSongsInput{
+    height: 50px;
+    width: 70px;
+    background-color: #1f1f1f;
+    border: none;
+    font-size: 18px;
+    font-weight: 300;
+    padding: 0 20px;
+}
