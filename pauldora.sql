@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 08, 2020 at 05:15 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.9
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jul 02, 2025 at 02:55 PM
+-- Server version: 8.0.31
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,13 +27,15 @@ SET time_zone = "+00:00";
 -- Table structure for table `albums`
 --
 
-CREATE TABLE `albums` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `albums`;
+CREATE TABLE IF NOT EXISTS `albums` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(250) NOT NULL,
-  `artist` int(11) NOT NULL,
-  `genre` int(11) NOT NULL,
-  `artworkPath` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `artist` int NOT NULL,
+  `genre` int NOT NULL,
+  `artworkPath` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `albums`
@@ -52,10 +54,12 @@ INSERT INTO `albums` (`id`, `title`, `artist`, `genre`, `artworkPath`) VALUES
 -- Table structure for table `artist`
 --
 
-CREATE TABLE `artist` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `artist`;
+CREATE TABLE IF NOT EXISTS `artist` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `artist`
@@ -75,10 +79,12 @@ INSERT INTO `artist` (`id`, `name`) VALUES
 -- Table structure for table `genres`
 --
 
-CREATE TABLE `genres` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+DROP TABLE IF EXISTS `genres`;
+CREATE TABLE IF NOT EXISTS `genres` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `genres`
@@ -94,27 +100,42 @@ INSERT INTO `genres` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `playlists`
+--
+
+DROP TABLE IF EXISTS `playlists`;
+CREATE TABLE IF NOT EXISTS `playlists` (
+  `id` int NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `songs`
 --
 
-CREATE TABLE `songs` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `songs`;
+CREATE TABLE IF NOT EXISTS `songs` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(250) NOT NULL,
-  `artist` int(11) NOT NULL,
-  `album` int(11) NOT NULL,
-  `genre` int(11) NOT NULL,
+  `artist` int NOT NULL,
+  `album` int NOT NULL,
+  `genre` int NOT NULL,
   `duration` varchar(8) NOT NULL,
   `path` varchar(500) NOT NULL,
-  `albumOrder` int(11) NOT NULL,
-  `plays` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `albumOrder` int NOT NULL,
+  `plays` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `songs`
 --
 
 INSERT INTO `songs` (`id`, `title`, `artist`, `album`, `genre`, `duration`, `path`, `albumOrder`, `plays`) VALUES
-(1, 'Smoothie Song', 2, 1, 5, '3:20', 'assets/music/smoothiesong.mp3', 1, 0),
+(1, 'Smoothie Song', 2, 1, 5, '3:20', 'assets/music/smoothiesong.mp3', 1, 1),
 (2, 'Spit on a Stranger', 2, 1, 5, '2:34', 'assets/music/spitonastranger.mp3', 2, 0),
 (3, 'Speak', 2, 1, 5, '4:01', 'assets/music/speak.mp3', 3, 0),
 (4, 'Hanging by a Thread', 2, 1, 5, '4:06', 'assets/music/hangingbyathread.mp3', 4, 0),
@@ -127,7 +148,7 @@ INSERT INTO `songs` (`id`, `title`, `artist`, `album`, `genre`, `duration`, `pat
 (11, 'Sabra Girl', 2, 1, 5, '4:04', 'assets/music/sabragirl.mp3', 11, 0),
 (12, 'Young', 2, 1, 5, '3:29', 'assets/music/young.mp3', 12, 0),
 (13, 'Brand New Sidewalk', 2, 1, 5, '4:16', 'assets/music/brandnewsidewalk.mp3', 13, 0),
-(14, 'Love', 3, 2, 3, '5:35', 'assets/music/bensound-love.mp3', 1, 0),
+(14, 'Love', 3, 2, 3, '5:35', 'assets/music/bensound-love.mp3', 1, 1),
 (15, 'Jazz Comedy', 3, 2, 3, '3:13', 'assets/music/bensound-jazzcomedy.mp3', 2, 0),
 (16, 'The Jazz Piano', 3, 2, 3, '2:40', 'assets/music/bensound-thejazzpiano.mp3', 3, 0),
 (17, 'All That', 3, 2, 3, '2:26', 'assets/music/bensound-allthat.mp3', 4, 0),
@@ -140,7 +161,7 @@ INSERT INTO `songs` (`id`, `title`, `artist`, `album`, `genre`, `duration`, `pat
 (24, 'Cute', 3, 2, 6, '3:14', 'assets/music/bensound-cute.mp3', 11, 0),
 (25, 'Ukulele', 3, 2, 6, '2:26', 'assets/music/bensound-ukulele.mp3', 12, 0),
 (26, 'State Of Grace', 6, 5, 4, '4:55', 'assets/music/stateofgrace.mp3', 1, 0),
-(27, 'Red', 6, 5, 4, '3:40', 'assets/music/red.mp3', 2, 0),
+(27, 'Red', 6, 5, 4, '3:40', 'assets/music/red.mp3', 2, 1),
 (28, 'Treacherous', 6, 5, 4, '4:00', 'assets/music/treacherous.mp3', 3, 0),
 (29, 'I Knew You Were Trouble', 6, 5, 4, '3:38', 'assets/music/iknewyouweretrouble.mp3', 4, 0),
 (30, 'All Too Well', 6, 5, 4, '5:27', 'assets/music/alltoowell.mp3', 5, 0),
@@ -161,7 +182,7 @@ INSERT INTO `songs` (`id`, `title`, `artist`, `album`, `genre`, `duration`, `pat
 (45, 'Treacherous (Original Demo Recording)', 6, 5, 4, '3:59', 'assets/music/treacherousoriginal.mp3', 20, 0),
 (46, 'Red (Original Demo Recording)', 6, 5, 4, '3:46', 'assets/music/redoriginal.mp3', 21, 0),
 (47, 'State Of Grace (Acoustic Version)', 6, 5, 4, '5:23', 'assets/music/stateofgraceacoustic.mp3', 22, 1),
-(48, 'So What', 5, 4, 3, '8:56', 'assets/music/sowhat.mp3', 1, 0),
+(48, 'So What', 5, 4, 3, '8:56', 'assets/music/sowhat.mp3', 1, 1),
 (49, 'Freddy Freeloader', 5, 4, 3, '9:32', 'assets/music/freddyfreeloader.mp3', 2, 0),
 (50, 'Blue In Green', 5, 4, 3, '5:27', 'assets/music/blueingreen.mp3', 3, 0),
 (51, 'All Blues', 5, 4, 3, '11:34', 'assets/music/allblues.mp3', 4, 0),
@@ -173,16 +194,18 @@ INSERT INTO `songs` (`id`, `title`, `artist`, `album`, `genre`, `duration`, `pat
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(25) NOT NULL,
   `firstName` varchar(50) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `email` varchar(200) NOT NULL,
   `password` varchar(32) NOT NULL,
   `signUpDate` datetime NOT NULL,
-  `profilePic` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `profilePic` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
@@ -190,74 +213,6 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `firstName`, `lastName`, `email`, `password`, `signUpDate`, `profilePic`) VALUES
 (2, 'PaulCharpie', 'Paul', 'Charpie', 'Paulcharpie@gmail.com', 'e0d9364b7cdbb92c99151eb8cedac66b', '2020-10-27 00:00:00', 'assets/images/profilePics/head_emerald.png');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `albums`
---
-ALTER TABLE `albums`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `artist`
---
-ALTER TABLE `artist`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `genres`
---
-ALTER TABLE `genres`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `songs`
---
-ALTER TABLE `songs`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `albums`
---
-ALTER TABLE `albums`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `artist`
---
-ALTER TABLE `artist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `genres`
---
-ALTER TABLE `genres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `songs`
---
-ALTER TABLE `songs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
