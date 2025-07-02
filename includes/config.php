@@ -4,7 +4,7 @@
 
   $timezone = date_default_timezone_set("America/New_York");
 
-  $con = mysqli_connect("localhost:3306", "root", "", "pauldora");   //connects db. Parameters: server, un, pw, db name
+  $con = mysqli_connect("localhost:3306", "root", "pass", "pauldora");   //connects db. Parameters: server, un, pw, db name
 
   if(mysqli_connect_errno()) {
     echo "Failed to connect: ". mysqlie_connect_errno();

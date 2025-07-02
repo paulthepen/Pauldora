@@ -49,8 +49,11 @@
         $profilePic = "assets/images/profilePics/head_emerald.png";
         $date = date("Y-m-d");
 
-        $result = mysqli_query($this->con, "INSERT INTO users VALUE('', '$un', '$fn', '$ln', '$em', '$encryptedPw', '$date', '$profilePic')");
-        return $result;
+          $stmt = $this->con->prepare("INSERT INTO users (username, firstName, lastName, email, password, signUpDate, profilePic) VALUES (?, ?, ?, ?, ?, ?, ?)");
+          $stmt->bind_param("sssssss", $un, $fn, $ln, $em, $encryptedPw, $date, $profilePic);
+          $result = $stmt->execute();
+
+          return $result;
       }
 
       private function validateUsername($un) {
